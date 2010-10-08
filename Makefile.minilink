@@ -1,0 +1,52 @@
+MKMINIMOD = $(MINILINKROOT)/tools/mkminimod
+MKSYMTAB =  $(MINILINKROOT)/tools/mksymtab
+JSENCODE = $(MINILINKROOT)/tools/jsencode.sh
+
+
+CLEAN += *.mlk *.krn symbols.*
+
+
+CONTIKIDIRS += $(MINILINKROOT)/src $(MINILINKROOT)/lib 
+CONTIKIFILES += malloc.c crc32k.c minilink.c
+
+
+# Generate Minilink
+%.mlk: %.co $(MKMINIMOD)
+	$(MKMINIMOD) $< $@
+
+$(MIG_SHORT).mlk:$(CONTIKI_PROJECT).co $(MKMINIMOD)
+	$(MKMINIMOD) $< $@
+	
+	
+%.js: %
+	$(JSENCODE) $< $(MIG_SRC) $(MIG_TARG) $<  >$@
+
+%.hex: %
+	wc -c $< | awk '{print $$1}' > $@
+	uuencode -m $< data  >> $@	
+	
+%.b64: %
+	uuencode -m $<  <$< >>$@
+
+	
+$(MIG_SHORT).mlk.js:$(CONTIKI_PROJECT).mlk
+	$(JSENCODE) $(CONTIKI_PROJECT).mlk $(MIG_SRC) $(MIG_TARG) $(MIG_SHORT).mlk > $(MIG_SHORT).mlk.js	
+	
+	
+symbols.mls: $(CONTIKI_PROJECT).$(TARGET) $(MKSYMTAB)
+	$(MKSYMTAB) $<  $@ 
+	
+
+
+$(MKMINIMOD):
+	$(MAKE) -C $(dir, $(MKMINIMOD))
+
+$(MKSYMTAB): 
+	$(MAKE) -C $(dir, $(MKSYMTAB))
+
+
+
+
+
+	
+	

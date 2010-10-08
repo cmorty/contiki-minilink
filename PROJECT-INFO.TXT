@@ -1,0 +1,12 @@
+Name: Minilink Linker
+Contact: Moritz "Morty" Strübe <morty@cs.fau.de>
+URL:
+License: BSD http://www.opensource.org/licenses/bsd-license.php
+Screenshot: 
+Contiki version: CVS 2010-06-22
+Intended platforms: Tmote Sky
+Tested platforms: Tmote Sky
+Description:
+The minilink linker produces much smaler modules, then the ELF linker.
+Although the actual linker is bigger, then the ELF Linker, it needs less
+flash memory, because the symbol table can be saved on external flash.

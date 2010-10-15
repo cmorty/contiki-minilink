@@ -243,6 +243,10 @@ free(void *p)
   for (fp1 = __flp, fp2 = 0; fp1; fp2 = fp1, fp1 = fp1->nx) {
     if(fp1 < fpnew)
       continue;
+    if(fp1 == fpnew){
+      //Double free
+      while(1);
+    }
     cp1 = (char *) fp1;
     fpnew->nx = fp1;
     if(((char *) &fpnew[1]) + fpnew->sz == cp1) {

@@ -13,7 +13,7 @@ HOST_STRIP = strip -R .comment
 #HOST_CFLAGS = -I -g -O3 -Wall -W -pedantic -std=c99 -D_XOPEN_SOURCE=600
 HOST_CFLAGS = -g -O0 -Wall -W -pedantic -std=c99 -D_XOPEN_SOURCE=600
 HOST_LDFLAGS = -g
-BFDLIBDIR = /home/inf4/morty/opt/mspgcc/lib
+BFDLIBDIR = libbfd-lin32
 BFDLIB = $(BFDLIBDIR)/libbfd.a $(BFDLIBDIR)/libiberty.a 
 MINILINKROOT =..
 

@@ -55,7 +55,6 @@
 #include <sys/process.h>
 #include <dev/watchdog.h>
 #include <dev/leds.h>
-#include <stypes.h>
 
 #include "crc32k.h"
 #include "misc_align.h"
@@ -501,7 +500,7 @@ static uint_fast8_t ml_relocate(struct io_buf_st *iob, size_t size, uint8_t *sta
 			for (mapctr = 0; mapctr < MINILINK_SEC; mapctr++) {
 			  DPRINTF("CMP %.4x < %.4x \n", escape ,pihdr->mem[mapctr].size);
 				if (escape < pihdr->mem[mapctr].size) {
-					writeaddr = (uptr_t)(pihdr->mem[mapctr].ptr) + escape;
+					writeaddr = (uintptr_t)(pihdr->mem[mapctr].ptr) + escape;
 					DPRINTF("Setting to  %x = %x + %x\n",writeaddr,(uint16_t)(pihdr->mem[mapctr].ptr), escape);
 					break;
 				}
@@ -809,6 +808,7 @@ uint_fast8_t minilink_load(const char *programfile, const char *symtabfile,
 	}
 
 
+
 	//Now let's get the ram for the symbol table
 	symvalp = malloc(mlhdr.symentries * sizeof(uint16_t));
 	if (symvalp == NULL) {
@@ -872,7 +872,7 @@ uint_fast8_t minilink_load(const char *programfile, const char *symtabfile,
 
 				if (samechars > sym_write_pos) { //Ok, looks like we went past the symbol
 					DPUTS("Symbol could not be resolved - past same\n");
-					status = 3;
+					status = 1;
 					goto cleanup;
 				} else if (samechars == sym_write_pos) {
 					while (1) { //Loop until we reach the Null-char
@@ -967,11 +967,14 @@ uint_fast8_t minilink_load(const char *programfile, const char *symtabfile,
 		for (curproc = process_list; curproc != NULL; curproc = curproc->next) {
 			if ((uintptr_t) (void*) curproc >= (uintptr_t) (instprog->mem[MINILINK_DATA].ptr)
 					&& (uintptr_t) (void*) curproc < (uintptr_t) (instprog->mem[MINILINK_DATA].ptr + instprog->mem[MINILINK_DATA].size)) {
-				DPUTS("Process in use. Can't install.");
+				puts("Process in use. Can't install.");
 				status = 2;
 				goto cleanup;
 			}
 		}
+
+
+
 		DPRINTF("Loading header from %x\n Data: %x\nBss: %x\n", (uint16_t) instprog, (uint16_t)instprog->mem[MINILINK_DATA].ptr, (uint16_t)instprog->mem[MINILINK_BSS].ptr);
 
 		memcpy(&pihdr, instprog, sizeof(pihdr));
@@ -1018,7 +1021,7 @@ uint_fast8_t minilink_load(const char *programfile, const char *symtabfile,
 	{
 		uint8_t r;
 		for(r = 0; r < MINILINK_SEC; r++){
-			DPRINTF("%x len: %x\n", (uptr_t)(pihdr.mem[r].ptr), (uptr_t)(pihdr.mem[r].size));
+			DPRINTF("%x len: %x\n", (uintptr_t)(pihdr.mem[r].ptr), (uintptr_t)(pihdr.mem[r].size));
 		}
 	}
 	LEDBOFF;

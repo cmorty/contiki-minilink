@@ -33,16 +33,16 @@ $(MIG_SHORT).mlk.js:$(CONTIKI_PROJECT).mlk
 	$(JSENCODE) $(CONTIKI_PROJECT).mlk $(MIG_SRC) $(MIG_TARG) $(MIG_SHORT).mlk > $(MIG_SHORT).mlk.js	
 	
 	
-symbols.mls: $(CONTIKI_PROJECT).$(TARGET) $(MKSYMTAB)
+%.symbols.mls: %.$(TARGET) $(MKSYMTAB)
 	$(MKSYMTAB) $<  $@ 
 	
 
 
 $(MKMINIMOD):
-	$(MAKE) -C $(dir, $(MKMINIMOD))
+	$(MAKE) -C $(dir $(MKMINIMOD)) $(notdir $(MKMINIMOD))
 
 $(MKSYMTAB): 
-	$(MAKE) -C $(dir, $(MKSYMTAB))
+	$(MAKE) -C $(dir $(MKSYMTAB)) $(notdir $(MKSYMTAB))
 
 
 

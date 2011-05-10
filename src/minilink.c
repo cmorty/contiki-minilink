@@ -47,6 +47,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
+#include <io.h>
 
 #include <malloc.h>
 #include <cfs/cfs.h>

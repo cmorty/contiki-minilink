@@ -4,6 +4,7 @@ JSENCODE = $(MINILINKROOT)/tools/jsencode.sh
 
 
 CLEAN += *.mlk *.krn symbols.*
+SMALL=0
 
 
 CONTIKIDIRS += $(MINILINKROOT)/src $(MINILINKROOT)/lib 

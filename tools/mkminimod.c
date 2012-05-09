@@ -37,7 +37,7 @@
  *         Tool to create loadable program
  * \author
  *         Klaus Stengel <Klaus.Stengel@informatik.uni-erlangen.de>
- *         Moritz Strübe <Moritz.Struebe@informatik.uni-erlangen.de>
+ *         Moritz Strï¿½be <Moritz.Struebe@informatik.uni-erlangen.de>
  */
 
 #include <stdio.h>
@@ -446,7 +446,7 @@ static int write_relocation(arelent *reloc, asymbol **symtab,
   if(outsymid < symid_max){
     //Yes it is!
     printf("Symbol: %s, ID:%x",(*symentry)->name, outsymid);
-    if( (*symentry)->value == 0 ){ // No offset
+    if( reloc->addend == 0 ){ // No offset
       outsymid += 1;
       SFWRITE(&outsymid, 2, stream);
       printf("\n");
@@ -455,8 +455,8 @@ static int write_relocation(arelent *reloc, asymbol **symtab,
     } else { //We have an offset -> two words
       outsymid += 1 + symid_max;
       SFWRITE(&outsymid, 2, stream); //Write symbol
-      SFWRITE(&((*symentry)->value), 2 , stream); // Write offset.
-      printf("--->Symid: %x Offset: %x\n", outsymid, (int)((*symentry)->value));
+      SFWRITE(&(reloc->addend), 2 , stream); // Write offset.
+      printf("--->Symid: %x Offset: %x\n", outsymid, (int)reloc->addend);
       lstats.link_comp ++;
     }
   }

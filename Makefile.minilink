@@ -12,8 +12,13 @@ CONTIKIFILES += malloc.c crc32k.c minilink.c
 
 
 # Generate Minilink
-%.mlk: %.co $(MKMINIMOD)
+%.mlk: %.com $(MKMINIMOD)
 	$(MKMINIMOD) $< $@
+
+
+%.com: %.co
+	$(LD) -r -T $(MINILINKROOT)/lib/merge_rodata.ld $< -o $@
+
 
 $(MIG_SHORT).mlk:$(CONTIKI_PROJECT).co $(MKMINIMOD)
 	$(MKMINIMOD) $< $@

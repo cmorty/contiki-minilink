@@ -247,9 +247,9 @@ write_symbollist(const size_t symcount, asymbol **symtab, FILE *stream)
     lastsym = cursym;
   }
 
-  printf("Total number of symbols: %i\n",symcount);
+  printf("Total number of symbols: %zd\n",symcount);
   printf("Bytes saved by new algo: %i\n", chars_saved_symbol_name);
-  printf("Bytes saved using offset: %i of %i \n", chars_saved_offset, symcount);
+  printf("Bytes saved using offset: %i of %zi \n", chars_saved_offset, symcount);
   printf("Bytes saved in total: %i \n", chars_saved_offset + chars_saved_symbol_name);
   printf("Total size: %i\n", bytes_written );
   printf("Total size without compression: %i\n", bytes_written + chars_saved_offset + chars_saved_symbol_name);

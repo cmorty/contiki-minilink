@@ -330,7 +330,7 @@ static int write_symbollist(const size_t symcount, asymbol ***symtab,
   size_t i, xlen, wres;
   uint8_t match;
   const char *curname;
-  printf("Number of symbols:%i\n", symcount);
+  printf("Number of symbols:%zd\n", symcount);
 
   for (i = 0; i < symcount; i++) {
     match = 0;
@@ -445,7 +445,7 @@ static int write_relocation(arelent *reloc, asymbol **symtab,
   //Check whether this symbol is in the Kernel
   if(outsymid < symid_max){
     //Yes it is!
-    printf("Symbol: %s, ID:%x",(*symentry)->name, outsymid);
+    printf("Symbol: %s, ID:%zx",(*symentry)->name, outsymid);
     if( reloc->addend == 0 ){ // No offset
       outsymid += 1;
       SFWRITE(&outsymid, 2, stream);
@@ -456,7 +456,7 @@ static int write_relocation(arelent *reloc, asymbol **symtab,
       outsymid += 1 + symid_max;
       SFWRITE(&outsymid, 2, stream); //Write symbol
       SFWRITE(&(reloc->addend), 2 , stream); // Write offset.
-      printf("--->Symid: %x Offset: %x\n", outsymid, (int)reloc->addend);
+      printf("--->Symid: %zx Offset: %x\n", outsymid, (int)reloc->addend);
       lstats.link_comp ++;
     }
   }
@@ -554,7 +554,7 @@ static int write_reloc_stream(const size_t datalen, void *data,
     baseoff += intres;
   }
 
-  printf("\n\n\nNumber of relocations: %i \n", reloc_count);
+  printf("\n\n\nNumber of relocations: %zd \n", reloc_count);
   printf("Number of reloc: %i \n", lstats.reloc);
   printf("Number of link_simp: %i \n", lstats.link_simp);
   printf("Number of link_comp %i \n", lstats.link_comp);
@@ -804,7 +804,7 @@ main(int argc, const char *argv[])
   //Calculate sizes
   for(ctr_sect = 0; ctr_sect < NUMSECT; ctr_sect ++){
     sections[ctr_sect].size = (sections[ctr_sect].sectptr) ? (sections[ctr_sect].sectptr->size): 0;
-    printf("Section %i, Size: h%x.4\n",ctr_sect, sections[ctr_sect].size);
+    printf("Section %i, Size: h%zx.4\n",ctr_sect, sections[ctr_sect].size);
   }
 
 

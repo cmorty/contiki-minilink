@@ -211,7 +211,16 @@ memwrite_flash(void *dest, void *src, size_t len)
     owptr[0] = *lclsrc++;
     owptr[1] = *lclsrc++;
 #if 1 !=FBENCHMARK
-    flash_write(lcldest++, ow);
+    flash_write(lcldest, ow);
+		#if DEBUG
+			printf("WRT: %p, %d, %d\n", lcldest, ow, *lcldest);
+			watchdog_periodic();
+		#endif	
+		if(ow != *lcldest){
+			printf("PANIC!");
+			while(1);
+		}
+		lcldest++;
 #endif
     written += 2;
   }
@@ -269,7 +278,16 @@ static void shift_iobuf(struct io_buf_st *b) {
 
 
 static void * ml_alloc_text(size_t size){
-	if(freerom_start - freerom_end > size){
+
+	if(!freerom_start){
+#if DEBUG		
+		puts("Minilink not initialized.");
+#endif
+		return NULL;
+	}
+
+
+	if(freerom_end - freerom_start  > size){
 		freerom_start += size;
 		return freerom_start - size;
 	}

@@ -30,6 +30,12 @@
  *
  */
 
+#include <stddef.h>
+#include <autostart.h>
+#include <string.h>
+#include <stdio.h>
+#include <minilink.h>
+#include <contiki.h>
 
 /**
  * \addtogroup minilink
@@ -38,7 +44,7 @@
  *         Adjusted c&p from a running system - not tested in this form. Please give feedback if there is trouble.
  * \author
  *         Klaus Stengel <Klaus.Stengel@informatik.uni-erlangen.de>
- *         Moritz Strübe <Moritz.Struebe@informatik.uni-erlangen.de>
+ *         Moritz StrÃ¼be <Moritz.Struebe@informatik.uni-erlangen.de>
  */
 
 
@@ -70,31 +76,32 @@ proc_get(char * name)
 }
 
 int
-link(char * file)
+link(char * file, char * symbols)
 {
 
   int status;
   struct process **proclist, **curproc;
-  SDPUTS("link");
+  puts("link");
 
-  status = minilink_load(file, "symbols.mls", &proclist);
+  status = minilink_load(file, symbols, &proclist);
   if(status == 0) {
-
+	printf("PROCL: %p - %p\n", proclist, *proclist);
     for (curproc = proclist; *curproc != NULL; curproc++) {
       struct process * tmp;
       //TODO this shouldn't be needed
-      clock_wait(10);
 
-      if(SIMINFO)
-        printf("Attaching process %s@%x *%x\n", (*curproc)->name,
+      printf("Attaching process %s@%x *%x\n", (*curproc)->name,
             (unsigned) (*curproc), (unsigned) curproc);
 
-      tmp = proc_ready;
-      for (tmp = proc_ready; tmp != *curproc && tmp->next != NULL; tmp
-          = tmp->next);
-      if(tmp->next == NULL && tmp != *curproc) {
-        tmp->next = *curproc;
-        (*curproc)->next = NULL;
+      if(proc_ready == NULL){
+    	  proc_ready = *curproc;
+      } else {
+		  //Enqueue / avoid dups
+		  for (tmp = proc_ready; tmp != *curproc && tmp->next != NULL; tmp= tmp->next);
+		  if(tmp->next == NULL && tmp != *curproc) {
+			tmp->next = *curproc;
+			(*curproc)->next = NULL;
+		  }
       }
     }
 
@@ -104,17 +111,44 @@ link(char * file)
 }
 
 int
-start(void)
+start(char * prog)
 {
 
   struct process *proc;
-  SDPUTS("Start");
-  proc = proc_get(cmd.data);
+  proc = proc_get(prog);
   if(proc == NULL) {
+    printf("Failed to find ");
+    puts(prog);
     return 1;
   }
   proc_dequeue(proc);
   process_start(proc, NULL);
   return 0;
-
 }
+
+
+/*---------------------------------------------------------------------------*/
+PROCESS(linker_process, "Linker");
+AUTOSTART_PROCESSES(&linker_process);
+/*---------------------------------------------------------------------------*/
+PROCESS_THREAD(linker_process, ev, data)
+{
+  PROCESS_BEGIN();
+  minilink_init();
+  puts("Linking file");
+  int rv = link("hello.mlk", "sym.mls");
+  if(rv){
+	  printf("Failed with %i\n", rv);
+  } else {
+	  puts("Success");
+  }
+  puts("Starting");
+  start("HelloW");
+
+  puts("done");
+
+
+  PROCESS_END();
+}
+/*---------------------------------------------------------------------------*/
+

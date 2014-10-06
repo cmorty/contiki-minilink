@@ -91,7 +91,7 @@
 
 #define FBENCHMARK 0
 
-#define DEBUG 0
+#define DEBUG 1
 #if DEBUG
 #define DPRINTF(...) printf(__VA_ARGS__)
 #define DPUTS(x)     puts(x)

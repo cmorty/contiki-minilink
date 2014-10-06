@@ -37,7 +37,7 @@
  *         Minimalistic linker for msp430.
  * \author
  *         Klaus Stengel <Klaus.Stengel@informatik.uni-erlangen.de>
- *         Moritz Strübe <Moritz.Struebe@informatik.uni-erlangen.de>
+ *         Moritz Strï¿½be <Moritz.Struebe@informatik.uni-erlangen.de>
  */
 
 //Start ROM memory at different addresses.
@@ -656,7 +656,7 @@ static Minilink_ProgramInfoHeader*
 program_already_loaded(Minilink_ProgramInfoHeader *proginfo) {
 	Minilink_ProgramInfoHeader *instprog = instprog_next(NULL);
 
-	DPUTS("Searching program...");
+	DPUTS("Searching program in Flash...");
 	for (;;) {
 		if (instprog == NULL)
 			break;
@@ -687,7 +687,7 @@ minilink_get_filename(struct process *process)
   Minilink_ProgramInfoHeader *instprog = instprog_next(NULL);
 
 
-  DPUTS("Searching program...");
+  DPUTS("Searching program in Ram...");
   for(;;) {
     if (instprog == NULL) break;
 

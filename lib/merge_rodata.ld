@@ -2,7 +2,8 @@ SECTIONS
 {
 .text :
 {
-*(.text)
-*(.rodata.* .rodata)
+     . = ALIGN(2);
+	*(.text .rodata.* .rodata)
+     . = ALIGN(2);
 }
 }

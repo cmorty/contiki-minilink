@@ -592,8 +592,8 @@ crc32k_checksum_stream(FILE *stream, uint32_t *checksum) {
   do {
     xres = fread(databuf, 1, sizeof(databuf), stream);
     if (xres < sizeof(databuf) && ferror(stream)) {
-  perror("Failed to checksum file");
-  return -1;
+      perror("Failed to checksum file");
+      return -1;
     }
     crc32k_add(databuf, xres, checksum);
   } while (xres == sizeof(databuf));
@@ -804,7 +804,7 @@ main(int argc, const char *argv[])
   //Calculate sizes
   for(ctr_sect = 0; ctr_sect < NUMSECT; ctr_sect ++){
     sections[ctr_sect].size = (sections[ctr_sect].sectptr) ? (sections[ctr_sect].sectptr->size): 0;
-    printf("Section %i, Size: h%zx.4\n",ctr_sect, sections[ctr_sect].size);
+    printf("Section %i, Size: h%.4zx\n",ctr_sect, sections[ctr_sect].size);
   }
 
 

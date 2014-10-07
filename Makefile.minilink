@@ -3,7 +3,7 @@ MKSYMTAB =  $(MINILINKROOT)/tools/mksymtab
 JSENCODE = $(MINILINKROOT)/tools/jsencode.sh
 
 
-CLEAN += *.mlk *.krn symbols.*
+CLEAN += *.mlk *.krn *.com *.mls
 SMALL=0
 
 

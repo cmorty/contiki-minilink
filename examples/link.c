@@ -135,6 +135,8 @@ PROCESS_THREAD(linker_process, ev, data)
 {
   PROCESS_BEGIN();
   minilink_init();
+  // We only have to clean when using the simulator, as ELFloader does not behave like the programmer
+  clean_minilink_space();
   puts("Linking file");
   int rv = link("hello.mlk", "sym.mls");
   if(rv){

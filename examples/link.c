@@ -88,7 +88,6 @@ link(char * file, char * symbols)
 	printf("PROCL: %p - %p\n", proclist, *proclist);
     for (curproc = proclist; *curproc != NULL; curproc++) {
       struct process * tmp;
-      //TODO this shouldn't be needed
 
       printf("Attaching process %s@%x *%x\n", (*curproc)->name,
             (unsigned) (*curproc), (unsigned) curproc);

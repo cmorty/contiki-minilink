@@ -7,13 +7,14 @@
 # ***************************************************************************
 
 
+BFDLIBDIR = libbfd-lin64
+
 
 HOST_CC = gcc
 HOST_STRIP = strip -R .comment
 #HOST_CFLAGS = -I -g -O3 -Wall -W -pedantic -std=c99 -D_XOPEN_SOURCE=600
 HOST_CFLAGS = -g -O0 -Wall -W -pedantic -std=c99 -D_XOPEN_SOURCE=600
 HOST_LDFLAGS = -g
-BFDLIBDIR = libbfd-lin64
 BFDLIB = $(BFDLIBDIR)/libbfd.a $(BFDLIBDIR)/libiberty.a  -lz
 MINILINKROOT =..
 

@@ -1,7 +1,7 @@
 Minilink Linker
 ===============
-The Minilink linker produces much smaler modules, then the ELF linker.
-Although the actual linker is bigger, then the ELF Linker, it needs less flash memory, because the symbol table can be saved on external flash.
+The Minilink linker produces much smaler modules, than the ELF linker.
+Although the actual linker is bigger, than the ELF Linker, it needs less flash memory, because the symbol table can be saved on external flash.
 
 Example
 -------
@@ -35,4 +35,4 @@ BSD http://www.opensource.org/licenses/bsd-license.php
 
 Contact
 =======
-Moritz "Morty" Strübe <morty@cs.fau.de>
+Moritz "Morty" StrÃ¼be <morty@cs.fau.de>
